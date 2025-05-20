@@ -1,0 +1,53 @@
+import pandas as pd
+df=pd.read_csv()
+
+#Rearranging columns
+df['Total']=df.iloc[:, 4:10].sum(axis=1)
+
+cols=list(df.columns.values)
+df=df[cols[0:4]+[cols[-1]]+cols[4:12]]
+df.head(5)
+
+#Saving(Exporting)
+df.to_csv('modified.csv')
+
+#Setting index=false
+df.to_csv('modified.csv',index=False)
+
+#Save as excel
+df.to_excel('modified.xlsx',index=True)
+
+#Save as txt
+df.to_csv('modified.txt',index=False, sep='\t')
+
+#From Column
+df.loc[df['Type 1']=='Grass']
+df.loc[df['Type 1']=='Grass' & df['Type 2']=='Poison']
+
+#Filtering Strings
+df.loc[df['Name'].str.contains('Mega')]
+
+df.loc[~df['Name'].str.contains('Mega')]
+
+#import regular expressions/ regex
+import re
+df.loc[df['Type 1'].str.contains('fire|grass')]
+df.loc[df['Type 1'].str.contains('fire|grass',flags=re.I,regex=True)]
+df.loc[df['Name'].str.contains('pi[a-z]*',flags=re.I,regex=True)]
+
+#Conditional changes
+df.loc[df['Type 1']=='Fire','Type 1']='Flamer'
+
+df.loc[df['Total']>500,['Generation,'Legendary']]='TEST VALUE'
+df
+
+#Aggregatre Statistics(Group By)
+df=pd.read_csv('modified.csv')
+df.groupby(['Type 1']).mean()
+df.groupby(['Type 1']).mean().sort_values('Defense',ascending=False)
+
+
+
+
+
+
